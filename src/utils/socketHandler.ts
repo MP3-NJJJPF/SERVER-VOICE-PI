@@ -61,6 +61,15 @@ class SocketIOHandler {
         });
       });
 
+      // Evento: Toggle video (activar/desactivar cámara)
+      socket.on('toggle-video', (data: { userId: string; meetingId: string; isVideoEnabled: boolean }) => {
+        console.log('toggle-video recibido:', data);
+        socket.to(`meeting-${data.meetingId}`).emit('video-state-changed', {
+          userId: data.userId,
+          isVideoEnabled: data.isVideoEnabled,
+        });
+      });
+
       // Evento: WebRTC Offer (usuario A ofrece conexión a usuario B)
       socket.on('webrtc-offer', (data: WebRTCOffer) => {
         console.log('webrtc-offer de', data.from, 'para', data.to);
